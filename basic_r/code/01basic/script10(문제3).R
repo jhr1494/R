@@ -1,8 +1,7 @@
-data(package = .packages(all.available = T))
-
 # ggplot2 패키지에는 미국 동북중부 437개 지역의 인구통계 정보를 담은 midwest라는 데이터가 포함되어 있습니다. midwest 데이터를 사용해 데이터 분석 문제를해결해보세요.
 
 # Q01. ggplot2 의 Midwest 데이터를 데이터 프레임 형태로 불러와서 데이터의 (구조, 끝부분, 뷰 창, 차원, 요약)을 파악하세요.
+data(package = .packages(all.available = T))
 library(ggplot2)
 midwest <- as.data.frame(midwest)
 str(midwest) #구조
