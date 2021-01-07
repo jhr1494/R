@@ -40,3 +40,43 @@ mpg %>%
   filter(!is.na(hwy)) %>% 
   group_by(drv) %>% 
   summarise(mean_der = mean(hwy))
+
+# =====================================
+# 문제
+# ggplot2에 존재하는 mpg데이터를 사용합니다
+# mpg데이터를 다음 구문으로 불러와서 이상치를 생성하세요.
+library(dplyr)
+library(ggplot2)
+
+mpg <- as.data.frame(ggplot2::mpg)
+mpg[ c(10, 14, 58, 93), "drv" ] <- "k"
+mpg[ c(29, 43, 129, 203), "cty"] <- c(3,4,39,42)
+
+str(mpg)
+
+# Q1
+# .drv에 이상치가 있는지 확인 합니다. 이상치를 결측치로 처리한 다음 확인하세요.
+table(mpg$drv) #k
+mpg$drv <- ifelse(mpg$drv == "k", NA, mpg$drv)
+
+table(mpg$drv)
+
+
+
+# Q2
+# boxplot을 이용해서 cty의 이상치 범위를 확인하고 통계치를 이용해서 벗어난 값을 결측처리 한 후
+# 다시 boxplot을 만들어서 확인하세요.
+boxplot(mpg$cty)$stats
+
+mpg$cty <- ifelse(mpg$cty < 9 | mpg$cty > 26, NA, mpg$cty)
+
+boxplot(mpg$cty)
+boxplot(mpg$cty)$stats
+
+# Q3
+# drv와 cty의 이상치를 결측처리 했다면, 결측치를 제외한 다음 drv별 cty평균이 어떻게 다른지 확인하세요.
+# 파이프라인을 사용합니다. (그룹핑)
+mpg %>% 
+  filter(!is.na(drv), !is.na(cty)) %>% 
+  group_by(drv) %>% 
+  summarise(mean_cty = mean(cty)) #na.rm = T
